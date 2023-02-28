@@ -1,6 +1,10 @@
 # 42-Urduliz---Inception:
 
-https://github.com/vbachele/Inception
+Guia para el proyecto: https://github.com/vbachele/Inception
+
+Guia de comandos docker: https://www.busindre.com/guia_rapida_de_la_linea_de_comandos_de_docker
+
+Paginas de documentación:
 
 https://atareao.es/tutorial/docker/crear-tus-propias-imagenes-docker/
 
