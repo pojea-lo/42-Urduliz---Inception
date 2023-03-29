@@ -1,0 +1,67 @@
+version: '3.3'
+
+services:
+        mariadb:
+                build: ./requirements/mariadb
+                restart: on-failure
+                env_file: .env
+                volumes:
+                        - mb_data:/var/lib/mysql
+                expose:
+                        - 3306
+                networks:
+                        - my_network
+                container_name: mariadb
+                image: mariadb
+
+        wordpress:
+                depends_on:
+                        - mariadb
+                build: ./requirements/wordpress
+                restart: on-failure
+                env_file: .env
+                volumes:
+                        - wd_data:/var/www/html
+                expose:
+                        - 9000
+                networks:
+                        - my_network
+                container_name: wordpress
+                image: wordpress
+                
+        nginx:
+                depends_on:
+                        - wordpress
+                build: ./requirements/nginx
+                restart: always
+                env_file: .env
+                volumes:
+                        - wd_data:/var/www/html
+                ports:
+                        - "443:443"
+                networks:
+                        - my_network
+                container_name: nginx
+                image: nginx
+
+volumes:
+        mb_data:
+                driver: local
+                driver_opts:
+                        type: volume
+                        o: bind
+                        device: /home/pojea-lo/data/md
+        wd_data:
+                driver: local
+                driver_opts: 
+                        type: volume
+                        o: bind
+                        device: /home/pojea-lo/data/wd
+
+networks:
+        my_network:
+                driver: bridge
+                ipam:
+                        driver: default
+        
+
